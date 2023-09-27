@@ -20,13 +20,21 @@ namespace MiProyecto
             {
                 // Abrir la conexión
                 dbConnection.Open();
+                // Aquí puedes realizar operaciones de lectura o escritura en la base de datos utilizando Dapper o cualquier otra biblioteca de acceso a datos.
+                // Por ejemplo, podrías ejecutar consultas SQL con Dapper.
+                // IDbCommand command = dbConnection.CreateCommand();
+                // command.CommandText = "SELECT * FROM MiTabla";
+                // IDbDataReader reader = command.ExecuteReader();
+
+                // ... Realizar operaciones de base de datos ...
+
 
                 ListarTodosLosUsuarios(dbConnection); // Llama a la función para listar todos los usuarios
                 Console.WriteLine("");
                 Console.WriteLine("Mostrar informacion de usuario por Id:");
                 ObtenerInformacionDeUsuarioPorId(dbConnection, 3); // Llama a la función para obtener información de un usuario por su ID
 
-                // Cuando hayas terminado, asegúrate de cerrar la conexión.
+                // asegúrate de cerrar la conexión.
                 dbConnection.Close();
             }
             catch (Exception ex)
