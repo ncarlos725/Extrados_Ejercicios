@@ -19,6 +19,7 @@ namespace _8PiezasProyect
                 Console.WriteLine("4. Alfil");
                 Console.WriteLine("5. Caballo");
                 Console.WriteLine("6. Peón");
+                Console.WriteLine("7. Sin Solucion");
 
                 // Leer la opción del usuario
                 int opcion;
@@ -44,11 +45,26 @@ namespace _8PiezasProyect
                         case 6:
                             pieza = new Peon(0, 0);
                             break;
+                        case 7:
+                            pieza = new PiezaSinSolucion(0, 0);
+                            break;
                     }
 
                     if (pieza != null)
                     {
-                        ResolverTablero.Resolver8Piezas(pieza);
+                       try 
+                            {
+
+                            ResolverTablero.Resolver8Piezas(pieza);
+
+                            }
+
+                        catch(SinSolucionException ex) 
+                            {
+                            Console.WriteLine("No se encontró una solución al problema de las piezas.");
+                            Console.WriteLine("Detalles del error:");
+                            Console.WriteLine(ex.StackTrace);
+                        }
                     }
                 }
                 else

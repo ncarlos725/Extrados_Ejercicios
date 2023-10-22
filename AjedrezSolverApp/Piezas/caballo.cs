@@ -16,7 +16,7 @@ namespace _8PiezasProyect.Piezas
         }
 
         // Métodos de la interfaz IPieza
-        public bool EsMovimientoValido(int nuevaFila, int nuevaColumna)
+        public virtual bool EsMovimientoValido(int nuevaFila, int nuevaColumna)
         {
             // Verificar si el movimiento es válido para un caballo
             int filaDiferencia = Math.Abs(nuevaFila - fila);

@@ -1,4 +1,5 @@
-﻿using _8PiezasProyect.Interfaz;
+﻿using System;
+using _8PiezasProyect.Interfaz;
 
 namespace _8PiezasProyect
 {
@@ -8,7 +9,11 @@ namespace _8PiezasProyect
         {
             int tamanoTablero = 8;
             IPieza[,] tablero = new IPieza[tamanoTablero, tamanoTablero];
-            Resolver8PiezasRecursivo(tablero, pieza, 0);
+            if (!Resolver8PiezasRecursivo(tablero, pieza, 0))
+            {
+                // Lanza la excepción SinSolucionException si no se encuentra una solución.
+                throw new SinSolucionException("No se encontró una solución al problema de las piezas.");
+            }
         }
 
         private static bool Resolver8PiezasRecursivo(IPieza[,] tablero, IPieza pieza, int piezasColocadas)
@@ -27,7 +32,7 @@ namespace _8PiezasProyect
             {
                 for (int columna = 0; columna < tamanoTablero; columna++)
                 {
-                    if (EsMovimientoValido(tablero, pieza, fila, columna))
+                    if (pieza.EsMovimientoValido(fila, columna))
                     {
                         // Coloca la pieza en esta posición.
                         tablero[fila, columna] = pieza;
@@ -35,10 +40,10 @@ namespace _8PiezasProyect
                         // Llama recursivamente para colocar la siguiente pieza.
                         if (Resolver8PiezasRecursivo(tablero, pieza, piezasColocadas + 1))
                         {
-                            return true; // Si encontramos una solucion, salimos.
+                            return true; // Si encontramos una solución, salimos.
                         }
 
-                        // Si no se pudo colocar la siguiente pieza, retrocede y prueba otra pos.
+                        // Si no se pudo colocar la siguiente pieza, retrocede y prueba otra posición.
                         tablero[fila, columna] = null;
                     }
                 }
@@ -47,75 +52,6 @@ namespace _8PiezasProyect
             // Si no se encontró una solución en esta ronda, regresa falso.
             return false;
         }
-
-        private static bool EsMovimientoValido(IPieza[,] tablero, IPieza pieza, int fila, int columna)
-        {
-            int tamanoTablero = tablero.GetLength(0);
-
-            // Verifica si la posición está ocupada por otra pieza.
-            if (tablero[fila, columna] != null)
-            {
-                return false;
-            }
-
-            // Verifica si hay otra reina en la misma fila.
-            for (int i = 0; i < tamanoTablero; i++)
-            {
-                if (tablero[fila, i] != null)
-                {
-                    return false;
-                }
-            }
-
-            // Verifica si hay otra reina en la misma columna.
-            for (int i = 0; i < tamanoTablero; i++)
-            {
-                if (tablero[i, columna] != null)
-                {
-                    return false;
-                }
-            }
-
-            // Verifica si hay otra reina en la diagonal principal (hacia arriba).
-            for (int i = fila, j = columna; i >= 0 && j >= 0; i--, j--)
-            {
-                if (tablero[i, j] != null)
-                {
-                    return false;
-                }
-            }
-
-            // Verifica si hay otra reina en la diagonal principal (hacia abajo).
-            for (int i = fila, j = columna; i < tamanoTablero && j < tamanoTablero; i++, j++)
-            {
-                if (tablero[i, j] != null)
-                {
-                    return false;
-                }
-            }
-
-            // Verifica si hay otra reina en la diagonal secundaria (hacia arriba).
-            for (int i = fila, j = columna; i >= 0 && j < tamanoTablero; i--, j++)
-            {
-                if (tablero[i, j] != null)
-                {
-                    return false;
-                }
-            }
-
-            // Verifica si hay otra reina en la diagonal secundaria (hacia abajo).
-            for (int i = fila, j = columna; i < tamanoTablero && j >= 0; i++, j--)
-            {
-                if (tablero[i, j] != null)
-                {
-                    return false;
-                }
-            }
-
-            // Si pasó todas las verificaciones, el movimiento es válido.
-            return true;
-        }
-
 
         private static void MostrarTablero(IPieza[,] tablero)
         {
@@ -141,3 +77,4 @@ namespace _8PiezasProyect
         }
     }
 }
+
